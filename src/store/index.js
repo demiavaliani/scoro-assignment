@@ -22,9 +22,24 @@ export default new Vuex.Store({
 		getAllTasksMutation(state, payload) {
 			state.tasks = payload;
 		},
+
+		// testMutation(state, { id, payload: { name, surname } }) {
+		// 	console.log("id: ", id);
+		// 	console.log("name: ", name);
+		// 	console.log("surname: ", surname);
+		// },
+
+		// testMutation(state, { id, payload }) {
+		// 	console.log("id: ", id);
+		// 	console.log("payload: ", payload);
+		// },
 	},
 
 	actions: {
+		// testAction({ commit }, { id, payload }) {
+		// 	commit("testMutation", { id, payload });
+		// },
+
 		getAllProjectsAction({ commit }, payload) {
 			return new Promise((resolve) => {
 				api.getAllProjects(payload).then((res) => {

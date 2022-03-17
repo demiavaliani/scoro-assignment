@@ -23,4 +23,16 @@ export default {
 			return await axios.post(`/api/v2/tasks/view/${id}`);
 		} catch (error) {}
 	},
+
+	async modifyProjectById({ id, payload }) {
+		try {
+			return await axios.post(`/api/v2/projects/modify/${id}`, payload);
+		} catch (error) {}
+	},
+
+	async modifyTaskById({ id, payload }) {
+		try {
+			return await axios.post(`/api/v2/tasks/modify/${id}`, payload);
+		} catch (error) {}
+	},
 };

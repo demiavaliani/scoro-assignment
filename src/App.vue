@@ -1,7 +1,6 @@
 <template>
 	<div id="app">
-		<!-- <button @click="callTask">Call Task</button>
-		<button @click="callProject">Call Project</button> -->
+		<!-- <button @click="callTask">Call Task</button> -->
 	</div>
 </template>
 
@@ -11,10 +10,14 @@ export default {
 	components: {},
 	methods: {
 		// callTask() {
-		// 	this.$store.dispatch("tasksModule/callAction");
-		// },
-		// callProject() {
-		// 	this.$store.dispatch("projectsModule/callAction");
+		// 	let payload = {
+		// 		id: 1,
+		// 		payload: {
+		// 			name: "Demi",
+		// 			surname: "Avaliani",
+		// 		},
+		// 	};
+		// 	this.$store.dispatch("testAction", payload);
 		// },
 	},
 };

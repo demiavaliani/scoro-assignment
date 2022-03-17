@@ -2,28 +2,25 @@ import api from "@/api";
 
 export default {
 	namespaced: true,
-	state: {
-		specificTask: {},
-	},
+	state: {},
 
 	getters: {},
 
-	mutations: {
-		getTaskByIdMutation(state, payload) {
-			state.specificTask = payload;
-		},
-	},
+	mutations: {},
 
 	actions: {
-		// callAction(context) {
-		// 	console.log("tasksModule action called");
-		// },
-
 		getTaskByIdAction({ commit }, id) {
 			return new Promise((resolve) => {
 				api.getTaskById(id).then((res) => {
-					commit("getTaskByIdMutation", res.data);
-					resolve();
+					resolve(res.data);
+				});
+			});
+		},
+
+		modifyTaskByIdAction({ commit }, { event_id, payload }) {
+			return new Promise((resolve) => {
+				api.modifyTaskById({ event_id, payload }).then((res) => {
+					resolve(res.data);
 				});
 			});
 		},

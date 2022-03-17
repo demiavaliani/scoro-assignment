@@ -2,28 +2,25 @@ import api from "@/api";
 
 export default {
 	namespaced: true,
-	state: {
-		specificProject: {},
-	},
+	state: {},
 
 	getters: {},
 
-	mutations: {
-		getProjectByIdMutation(state, payload) {
-			state.specificTask = payload;
-		},
-	},
+	mutations: {},
 
 	actions: {
-		// callAction(context) {
-		// 	console.log("projectsModule action called");
-		// },
-
 		getProjectByIdAction({ commit }, id) {
 			return new Promise((resolve) => {
 				api.getProjectById(id).then((res) => {
-					commit("getProjectByIdMutation", res.data);
-					resolve();
+					resolve(res.data);
+				});
+			});
+		},
+
+		modifyProjectByIdAction({ commit }, { project_id, payload }) {
+			return new Promise((resolve) => {
+				api.modifyProjectById({ project_id, payload }).then((res) => {
+					resolve(res.data);
 				});
 			});
 		},
