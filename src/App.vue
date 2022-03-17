@@ -1,11 +1,25 @@
 <template>
-	<div id="app"></div>
+	<div id="app">
+		<!-- <button @click="callTask">Call Task</button> -->
+	</div>
 </template>
 
 <script>
 export default {
 	name: "App",
 	components: {},
+	methods: {
+		// callTask() {
+		// 	let payload = {
+		// 		id: 1,
+		// 		payload: {
+		// 			name: "Demi",
+		// 			surname: "Avaliani",
+		// 		},
+		// 	};
+		// 	this.$store.dispatch("testAction", payload);
+		// },
+	},
 };
 </script>
 
