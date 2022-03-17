@@ -1,11 +1,22 @@
 <template>
-	<div id="app"></div>
+	<div id="app">
+		<!-- <button @click="callTask">Call Task</button>
+		<button @click="callProject">Call Project</button> -->
+	</div>
 </template>
 
 <script>
 export default {
 	name: "App",
 	components: {},
+	methods: {
+		// callTask() {
+		// 	this.$store.dispatch("tasksModule/callAction");
+		// },
+		// callProject() {
+		// 	this.$store.dispatch("projectsModule/callAction");
+		// },
+	},
 };
 </script>
 
