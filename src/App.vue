@@ -1,36 +1,19 @@
 <template>
 	<div id="app">
-		<!-- <button @click="getProjects">Get all Projects</button> -->
-		<!-- <button @click="modifyProject">Modify a Project</button> -->
-		<!-- <button @click="getProjectStatuses">Get Project statuses</button> -->
+		<ListItem></ListItem>
 	</div>
 </template>
 
 <script>
+// import ListItem from "./components/ListItem";
+import ListItem from "../src/components/ListItem.vue";
+
 export default {
 	name: "App",
-	components: {},
-	methods: {
-		// getProjects() {
-		// 	this.$store
-		// 		.dispatch("getAllProjectsAction")
-		// 		.then((res) => console.log("$store.state.projects", this.$store.state.projects));
-		// },
-		// getProjectStatuses() {
-		// 	this.$store
-		// 		.dispatch("getProjectStatusesAction", 1)
-		// 		.then((res) => console.log("$store.state.projectStatuses", this.$store.state.projectStatuses));
-		// },
-		// modifyProject() {
-		// 	let data = {
-		// 		project_id: 1,
-		// 		payload: {
-		// 			status: "test-1-2-3",
-		// 		},
-		// 	};
-		// 	this.$store.dispatch("projectsModule/modifyProjectByIdAction", data).then((res) => console.log(res));
-		// },
+	components: {
+		ListItem,
 	},
+	methods: {},
 };
 </script>
 

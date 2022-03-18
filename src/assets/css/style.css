@@ -32,3 +32,23 @@
 	font-style: normal;
 	font-display: swap;
 }
+
+.project-name p {
+	font-family: Inter;
+	font-size: 15px;
+	font-weight: 600;
+}
+
+p.key {
+	font-family: Inter;
+	font-size: 12px;
+	font-weight: 400;
+	color: #9a9a9a;
+}
+
+p.value {
+	font-family: Inter;
+	font-size: 12px;
+	font-weight: 400;
+	color: #222935;
+}
