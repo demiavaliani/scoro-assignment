@@ -8,6 +8,27 @@ import "./assets/css/style.css";
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 
+axios.interceptors.request.use(
+	(config) => {
+		config.data = {
+			...config.data,
+			lang: "eng",
+			company_account_id: "apiplayground",
+			apiKey: "ScoroAPI_7bd4080abccc13c",
+		};
+		return config;
+	},
+	function (error) {
+		// process error
+		return Promise.reject(error);
+	}
+);
+
+axios.interceptors.response.use((response) => {
+	let data = response.data.data;
+	return data;
+});
+
 new Vue({
 	store,
 	render: (h) => h(App),

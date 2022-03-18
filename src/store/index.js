@@ -10,49 +10,62 @@ export default new Vuex.Store({
 	state: {
 		projects: [],
 		tasks: [],
+		projectStatuses: [],
+		taskStatuses: [],
 	},
 
 	getters: {},
 
 	mutations: {
-		getAllProjectsMutation(state, payload) {
+		setAllProjectsMutation(state, payload) {
 			state.projects = payload;
 		},
 
-		getAllTasksMutation(state, payload) {
+		setAllTasksMutation(state, payload) {
 			state.tasks = payload;
 		},
 
-		// testMutation(state, { id, payload: { name, surname } }) {
-		// 	console.log("id: ", id);
-		// 	console.log("name: ", name);
-		// 	console.log("surname: ", surname);
-		// },
+		setProjectStatusesMutation(state, payload) {
+			state.projectStatuses = payload;
+		},
 
-		// testMutation(state, { id, payload }) {
-		// 	console.log("id: ", id);
-		// 	console.log("payload: ", payload);
-		// },
+		setTaskStatusesMutation(state, payload) {
+			state.taskStatuses = payload;
+		},
 	},
 
 	actions: {
-		// testAction({ commit }, { id, payload }) {
-		// 	commit("testMutation", { id, payload });
-		// },
-
-		getAllProjectsAction({ commit }, payload) {
+		getAllProjectsAction({ commit }) {
 			return new Promise((resolve) => {
-				api.getAllProjects(payload).then((res) => {
-					commit("getAllProjectsMutation", res.data);
+				api.getAllProjects().then((res) => {
+					commit("setAllProjectsMutation", res);
 					resolve();
 				});
 			});
 		},
 
-		getAllTasksAction({ commit }, payload) {
+		getAllTasksAction({ commit }) {
 			return new Promise((resolve) => {
-				api.getAllProjects(payload).then((res) => {
-					commit("getAllTasksMutation", res.data);
+				api.getAllTasks().then((res) => {
+					commit("setAllTasksMutation", res);
+					resolve();
+				});
+			});
+		},
+
+		getProjectStatusesAction({ commit }) {
+			return new Promise((resolve) => {
+				api.getStatuses("projects").then((res) => {
+					commit("setProjectStatusesMutation", res);
+					resolve();
+				});
+			});
+		},
+
+		getTaskStatusesAction({ commit }) {
+			return new Promise((resolve) => {
+				api.getStatuses("tasks").then((res) => {
+					commit("setTaskStatusesMutation", res);
 					resolve();
 				});
 			});
