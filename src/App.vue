@@ -1,6 +1,8 @@
 <template>
 	<div id="app">
-		<!-- <button @click="callTask">Call Task</button> -->
+		<!-- <button @click="getProjects">Get all Projects</button> -->
+		<!-- <button @click="modifyProject">Modify a Project</button> -->
+		<!-- <button @click="getProjectStatuses">Get Project statuses</button> -->
 	</div>
 </template>
 
@@ -9,15 +11,24 @@ export default {
 	name: "App",
 	components: {},
 	methods: {
-		// callTask() {
-		// 	let payload = {
-		// 		id: 1,
+		// getProjects() {
+		// 	this.$store
+		// 		.dispatch("getAllProjectsAction")
+		// 		.then((res) => console.log("$store.state.projects", this.$store.state.projects));
+		// },
+		// getProjectStatuses() {
+		// 	this.$store
+		// 		.dispatch("getProjectStatusesAction", 1)
+		// 		.then((res) => console.log("$store.state.projectStatuses", this.$store.state.projectStatuses));
+		// },
+		// modifyProject() {
+		// 	let data = {
+		// 		project_id: 1,
 		// 		payload: {
-		// 			name: "Demi",
-		// 			surname: "Avaliani",
+		// 			status: "test-1-2-3",
 		// 		},
 		// 	};
-		// 	this.$store.dispatch("testAction", payload);
+		// 	this.$store.dispatch("projectsModule/modifyProjectByIdAction", data).then((res) => console.log(res));
 		// },
 	},
 };

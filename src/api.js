@@ -1,14 +1,14 @@
 import axios from "axios";
 
 export default {
-	async getAllProjects(payload) {
+	async getAllProjects() {
 		try {
-			return await axios.post("/api/v2/projects/list", payload);
+			return await axios.post("/api/v2/projects/list");
 		} catch (error) {}
 	},
-	async getAllTasks(payload) {
+	async getAllTasks() {
 		try {
-			return await axios.post("/api/v2/tasks/list", payload);
+			return await axios.post("/api/v2/tasks/list");
 		} catch (error) {}
 	},
 
@@ -24,15 +24,36 @@ export default {
 		} catch (error) {}
 	},
 
-	async modifyProjectById({ id, payload }) {
+	async getStatuses(module) {
 		try {
-			return await axios.post(`/api/v2/projects/modify/${id}`, payload);
+			let data = {
+				filter: {
+					module: [module],
+				},
+			};
+			return await axios.post(`/api/v2/statuses/list`, data);
 		} catch (error) {}
 	},
 
-	async modifyTaskById({ id, payload }) {
+	async modifyProjectById({ project_id, payload }) {
 		try {
-			return await axios.post(`/api/v2/tasks/modify/${id}`, payload);
+			let data = {
+				request: {
+					...payload,
+				},
+			};
+			return await axios.post(`/api/v2/projects/modify/${project_id}`, data);
+		} catch (error) {}
+	},
+
+	async modifyTaskById({ event_id, payload }) {
+		try {
+			let data = {
+				request: {
+					...payload,
+				},
+			};
+			return await axios.post(`/api/v2/tasks/modify/${event_id}`, data);
 		} catch (error) {}
 	},
 };
