@@ -10,22 +10,22 @@
 		</div>
 
 		<div class="info">
-			<div class="company-wrapper">
+			<div class="company-general-wrapper">
 				<p class="key">Company</p>
 				<p class="value">ABC Company</p>
 			</div>
 
-			<div class="manager-wrapper">
+			<div class="manager-general-wrapper">
 				<p class="key">Manager email</p>
 				<p class="value">elar@scoro.com</p>
 			</div>
 
-			<div class="start-date-wrapper">
+			<div class="start-date-general-wrapper">
 				<p class="key">Start date</p>
 				<p class="value">2020-02-25</p>
 			</div>
 
-			<div class="deadline-wrapper">
+			<div class="deadline-general-wrapper">
 				<p class="key">Deadline</p>
 				<p class="value">2020-04-24</p>
 			</div>
@@ -49,9 +49,8 @@ export default {
 .list-item-wrapper {
 	display: flex;
 	flex-flow: column;
-	width: 400px;
-	max-width: 100%;
-	height: 80px;
+	width: 40vw;
+	height: 12vh;
 	box-sizing: border-box;
 	padding: 10px;
 	border-radius: 7px;
@@ -63,6 +62,10 @@ export default {
 	}
 
 	& .info {
+		display: flex;
+		flex-flow: column;
+
+		&
 	}
 }
 </style>
