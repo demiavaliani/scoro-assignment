@@ -32,3 +32,42 @@
 	font-style: normal;
 	font-display: swap;
 }
+
+html,
+body {
+	height: 100%;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+}
+
+p {
+	margin: 0;
+	white-space: nowrap;
+}
+
+.project-name p {
+	font-family: Inter;
+	font-size: 15px;
+	font-weight: 600;
+}
+
+p.key {
+	font-family: Inter;
+	font-size: 12px;
+	font-weight: 400;
+	color: #9a9a9a;
+}
+
+p.value,
+a.value {
+	font-family: Inter;
+	font-size: 12px;
+	font-weight: 400;
+	color: #222935;
+}
