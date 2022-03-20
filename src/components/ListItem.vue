@@ -10,24 +10,28 @@
 		</div>
 
 		<div class="info">
-			<div class="company-general-wrapper">
-				<p class="key">Company</p>
-				<p class="value">ABC Company</p>
+			<div class="info-row">
+				<div class="info-item-wrapper">
+					<p class="key">Company</p>
+					<p class="key">Manager email</p>
+				</div>
+
+				<div class="info-item-wrapper">
+					<p class="value">ABC Company</p>
+					<a class="value" href="#">elar@scoroooooo.com</a>
+				</div>
 			</div>
 
-			<div class="manager-general-wrapper">
-				<p class="key">Manager email</p>
-				<p class="value">elar@scoro.com</p>
-			</div>
+			<div class="info-row">
+				<div class="info-item-wrapper">
+					<p class="key">Start date</p>
+					<p class="key">Deadline</p>
+				</div>
 
-			<div class="start-date-general-wrapper">
-				<p class="key">Start date</p>
-				<p class="value">2020-02-25</p>
-			</div>
-
-			<div class="deadline-general-wrapper">
-				<p class="key">Deadline</p>
-				<p class="value">2020-04-24</p>
+				<div class="info-item-wrapper">
+					<p class="value date">2020-02-25</p>
+					<p class="value date">2020-04-24</p>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -37,7 +41,11 @@
 export default {
 	name: "ListItem",
 
-	data() {},
+	data() {
+		return {
+			email: "demikoavaliani@gmail.com",
+		};
+	},
 
 	computed: {},
 
@@ -49,23 +57,77 @@ export default {
 .list-item-wrapper {
 	display: flex;
 	flex-flow: column;
+	justify-content: space-between;
 	width: 40vw;
-	height: 12vh;
+	max-width: 450px;
+	min-height: 12vh;
+	max-height: fit-content;
 	box-sizing: border-box;
-	padding: 10px;
+	padding: 10px 12px;
 	border-radius: 7px;
 	box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.25);
+
+	@media screen and (max-width: 735.5px) {
+		width: 70vw;
+	}
 
 	& .header {
 		display: flex;
 		justify-content: space-between;
+		margin-bottom: 10px;
 	}
 
 	& .info {
 		display: flex;
-		flex-flow: column;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		width: 100%;
 
-		&
+		@media screen and (max-width: 1058.5px) {
+			flex-flow: column;
+		}
+
+		&-row {
+			display: flex;
+			justify-content: space-between;
+
+			&:first-child {
+				flex-grow: 2;
+				min-width: 60%;
+				margin-right: 20px;
+
+				@media screen and (max-width: 1058.5px) {
+					margin-right: 0;
+				}
+			}
+
+			&:nth-child(2) {
+				flex-grow: 1;
+				min-width: 35%;
+			}
+		}
+
+		&-item-wrapper {
+			display: flex;
+			flex-flow: column;
+
+			p {
+				display: flex;
+
+				&:first-child {
+					margin-bottom: 7px;
+				}
+			}
+
+			p.key {
+				width: 30%;
+				margin-right: 10px;
+			}
+
+			p.value {
+				width: 70%;
+			}
+		}
 	}
 }
 </style>

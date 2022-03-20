@@ -46,6 +46,11 @@ body {
 	padding: 0;
 }
 
+p {
+	margin: 0;
+	white-space: nowrap;
+}
+
 .project-name p {
 	font-family: Inter;
 	font-size: 15px;
@@ -59,7 +64,8 @@ p.key {
 	color: #9a9a9a;
 }
 
-p.value {
+p.value,
+a.value {
 	font-family: Inter;
 	font-size: 12px;
 	font-weight: 400;
