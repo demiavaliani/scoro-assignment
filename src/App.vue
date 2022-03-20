@@ -1,17 +1,18 @@
 <template>
 	<div id="app">
-		<ListItem></ListItem>
+		<TaskAndProjectWrapper></TaskAndProjectWrapper>
 	</div>
 </template>
 
 <script>
-// import ListItem from "./components/ListItem";
 import ListItem from "../src/components/ListItem.vue";
+import TaskAndProjectWrapper from "../src/components/TaskAndProjectWrapper.vue";
 
 export default {
 	name: "App",
 	components: {
 		ListItem,
+		TaskAndProjectWrapper,
 	},
 	methods: {},
 };
@@ -24,5 +25,6 @@ export default {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
+	--border-color: #222935;
 }
 </style>

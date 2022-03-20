@@ -58,7 +58,8 @@ export default {
 	display: flex;
 	flex-flow: column;
 	justify-content: space-between;
-	width: 40vw;
+	// width: 40vw;
+	width: 100%;
 	max-width: 450px;
 	min-height: 12vh;
 	max-height: fit-content;
