@@ -10,8 +10,6 @@ export default new Vuex.Store({
 	state: {
 		projects: [],
 		tasks: [],
-		projectStatuses: [],
-		taskStatuses: [],
 	},
 
 	getters: {},
@@ -23,14 +21,6 @@ export default new Vuex.Store({
 
 		setAllTasksMutation(state, payload) {
 			state.tasks = payload;
-		},
-
-		setProjectStatusesMutation(state, payload) {
-			state.projectStatuses = payload;
-		},
-
-		setTaskStatusesMutation(state, payload) {
-			state.taskStatuses = payload;
 		},
 	},
 
@@ -48,24 +38,6 @@ export default new Vuex.Store({
 			return new Promise((resolve) => {
 				api.getAllTasks().then((res) => {
 					commit("setAllTasksMutation", res);
-					resolve();
-				});
-			});
-		},
-
-		getProjectStatusesAction({ commit }) {
-			return new Promise((resolve) => {
-				api.getStatuses("projects").then((res) => {
-					commit("setProjectStatusesMutation", res);
-					resolve();
-				});
-			});
-		},
-
-		getTaskStatusesAction({ commit }) {
-			return new Promise((resolve) => {
-				api.getStatuses("tasks").then((res) => {
-					commit("setTaskStatusesMutation", res);
 					resolve();
 				});
 			});

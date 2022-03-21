@@ -1,12 +1,14 @@
 <template>
 	<div id="app">
-		<TaskAndProjectWrapper></TaskAndProjectWrapper>
+		<!-- <TaskAndProjectWrapper></TaskAndProjectWrapper> -->
+		<AllStatuses></AllStatuses>
 	</div>
 </template>
 
 <script>
 import ListItem from "../src/components/ListItem.vue";
 import TaskAndProjectWrapper from "../src/components/TaskAndProjectWrapper.vue";
+import AllStatuses from "../src/components/AllStatuses.vue";
 
 export default {
 	name: "App",
@@ -14,6 +16,7 @@ export default {
 	components: {
 		ListItem,
 		TaskAndProjectWrapper,
+		AllStatuses,
 	},
 
 	methods: {},
@@ -21,6 +24,8 @@ export default {
 	mounted() {
 		this.$store.dispatch("getAllProjectsAction");
 		this.$store.dispatch("getAllTasksAction");
+		this.$store.dispatch("projectsModule/getProjectStatusesAction");
+		this.$store.dispatch("tasksModule/getTaskStatusesAction");
 	},
 };
 </script>

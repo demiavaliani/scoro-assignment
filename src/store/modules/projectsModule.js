@@ -2,11 +2,17 @@ import api from "@/api";
 
 export default {
 	namespaced: true,
-	state: {},
+	state: {
+		projectStatuses: [],
+	},
 
 	getters: {},
 
-	mutations: {},
+	mutations: {
+		setProjectStatusesMutation(state, payload) {
+			state.projectStatuses = payload;
+		},
+	},
 
 	actions: {
 		getProjectByIdAction({ commit }, id) {
@@ -25,6 +31,15 @@ export default {
 			return new Promise((resolve) => {
 				api.modifyProjectById({ project_id, payload }).then((res) => {
 					resolve(res);
+				});
+			});
+		},
+
+		getProjectStatusesAction({ commit }) {
+			return new Promise((resolve) => {
+				api.getStatuses("projects").then((res) => {
+					commit("setProjectStatusesMutation", res);
+					resolve();
 				});
 			});
 		},
