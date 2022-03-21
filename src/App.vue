@@ -10,11 +10,18 @@ import TaskAndProjectWrapper from "../src/components/TaskAndProjectWrapper.vue";
 
 export default {
 	name: "App",
+
 	components: {
 		ListItem,
 		TaskAndProjectWrapper,
 	},
+
 	methods: {},
+
+	mounted() {
+		this.$store.dispatch("getAllProjectsAction");
+		this.$store.dispatch("getAllTasksAction");
+	},
 };
 </script>
 
