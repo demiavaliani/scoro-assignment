@@ -2,7 +2,7 @@
 	<div class="list-item-wrapper">
 		<div class="tab">
 			<div class="project-name">
-				<p v-if="tabOption == 'projects'">{{ projectName }}</p>
+				<p v-if="activeTab == 'projects'">{{ projectName }}</p>
 				<p v-else>{{ eventName }}</p>
 			</div>
 			<div class="project-status">
@@ -14,28 +14,28 @@
 			<div class="info-row">
 				<div class="info-item-wrapper">
 					<p class="key">Company</p>
-					<p v-if="tabOption == 'projects'" class="key">Manager email</p>
+					<p v-if="activeTab == 'projects'" class="key">Manager email</p>
 					<p v-else class="key">Owner email</p>
 				</div>
 
 				<div class="info-item-wrapper">
 					<p class="value">{{ companyName }}</p>
-					<a v-if="tabOption == 'projects'" class="value" href="#">{{ managerEmail }}</a>
+					<a v-if="activeTab == 'projects'" class="value" href="#">{{ managerEmail }}</a>
 					<a v-else class="value" href="#">{{ ownerEmail }}</a>
 				</div>
 			</div>
 
 			<div class="info-row">
 				<div class="info-item-wrapper">
-					<p v-if="tabOption == 'projects'" class="key">Start date</p>
+					<p v-if="activeTab == 'projects'" class="key">Start date</p>
 					<p v-else class="key">Creation date</p>
 					<p class="key">Deadline</p>
 				</div>
 
 				<div class="info-item-wrapper">
-					<p v-if="tabOption == 'projects'" class="value date">{{ projectStart }}</p>
+					<p v-if="activeTab == 'projects'" class="value date">{{ projectStart }}</p>
 					<p v-else class="value date">{{ taskStart }}</p>
-					<p v-if="tabOption == 'projects'" class="value date">{{ projectDeadline }}</p>
+					<p v-if="activeTab == 'projects'" class="value date">{{ projectDeadline }}</p>
 					<p v-else class="value date">{{ taskDeadline }}</p>
 				</div>
 			</div>
@@ -48,7 +48,7 @@ export default {
 	name: "ListItem",
 
 	props: {
-		tabOption: {},
+		activeTab: {},
 		projectName: {
 			default: "Not indicated",
 		},

@@ -1,24 +1,24 @@
 <template>
 	<div class="task-and-project-wrapper">
 		<div class="tab">
-			<div class="projects-wrapper" @click="tabOption = 'projects'">
+			<div class="projects-wrapper" @click="tabClick('projects')" ref="projects">
 				<div class="projects">
 					<p>Projects</p>
 				</div>
 			</div>
 
-			<div class="tasks-wrapper" @click="tabOption = 'tasks'">
+			<div class="tasks-wrapper" @click="tabClick('tasks')" ref="tasks">
 				<div class="tasks">
 					<p>Tasks</p>
 				</div>
 			</div>
 		</div>
 
-		<div class="list-area" v-if="tabOption == 'projects'">
+		<div class="list-area" v-if="activeTab == 'projects'">
 			<ListItem
 				v-for="item in projects"
 				:key="item.project_id"
-				:tab-option="tabOption"
+				:active-tab="activeTab"
 				:project-name="!!item.project_name ? item.project_name : undefined"
 				:company-name="!!item.company_name ? item.company_name : undefined"
 				:manager-email="!!item.manager_email ? item.manager_email : undefined"
@@ -27,11 +27,11 @@
 			></ListItem>
 		</div>
 
-		<div class="list-area" v-else-if="tabOption == 'tasks'">
+		<div class="list-area" v-else-if="activeTab == 'tasks'">
 			<ListItem
 				v-for="item in tasks"
 				:key="item.event_id"
-				:tab-option="'tasks'"
+				:active-tab="'tasks'"
 				:event-name="!!item.event_name ? item.event_name : undefined"
 				:company-name="!!item.company_name ? item.company_name : undefined"
 				:owner-email="!!item.owner_email ? item.owner_email : undefined"
@@ -40,11 +40,11 @@
 			></ListItem>
 		</div>
 
-		<!-- <div class="list-area" v-if="tabOption == 'projects'">
+		<!-- <div class="list-area" v-if="activeTab == 'projects'">
 			<ListItem
 				v-for="(item, index) in projects"
 				:key="item.project_id"
-				:tab-option="tabOption"
+				:active-tab="activeTab"
 				v-bind="listItemProps(index)"
 			></ListItem>
 		</div> -->
@@ -62,7 +62,7 @@ export default {
 
 	data() {
 		return {
-			tabOption: "tasks",
+			activeTab: "projects",
 			sample: [1, 2, 3, 4, 5],
 		};
 	},
@@ -85,6 +85,24 @@ export default {
 
 				return dateFormatted;
 			}
+		},
+
+		tabClick(target) {
+			if (target) {
+				this.$refs[target].style.backgroundColor = "red";
+				if (!!this.activeTab && target != this.activeTab) {
+					this.$refs[this.activeTab].style.backgroundColor = "transparent";
+				}
+
+				const child = this.$refs[target].children;
+				const grandChild = child[0].children;
+
+				grandChild[0].animate([{ fontSize: "20px" }, { fontSize: "18px" }, { fontSize: "20px" }], {
+					duration: 200,
+					easing: "ease-out",
+				});
+			}
+			this.activeTab = target;
 		},
 
 		// listItemProps(index) {
@@ -121,17 +139,21 @@ export default {
 
 	& .tab {
 		display: flex;
+		height: fit-content;
 		border: 1px solid var(--border-color);
 		border-radius: 15px 15px 0 0;
 
 		& .projects-wrapper {
 			width: 100%;
 			border-right: 1px solid var(--border-color);
+			border-top-left-radius: 15px;
 			cursor: pointer;
+			background-color: red;
 		}
 
 		& .tasks-wrapper {
 			width: 100%;
+			border-top-right-radius: 15px;
 			cursor: pointer;
 		}
 
@@ -140,6 +162,10 @@ export default {
 			width: 100%;
 			margin: 12px 0;
 		}
+
+		// p {
+		// 	transition: font-size 2s;
+		// }
 	}
 
 	& .list-area {
