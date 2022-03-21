@@ -1,12 +1,13 @@
 <template>
 	<div class="statuses-list">
+		<!-- <button>Toggle Status</button> -->
 		<div
 			class="status-item"
-			v-for="(item, index) in statuses"
+			v-for="(item, index) in activeTab"
 			:key="index"
 			:id="item.status_name"
 			:class="{ active: item.status_name == activeStatus }"
-			@click="statusClicked($event, item.status_name)"
+			@click="statusClicked(item.status_name, $event)"
 		>
 			<div class="status-item-wrapper">
 				<div class="status-item-color-wrapper">
@@ -23,6 +24,13 @@ import { mapState } from "vuex";
 
 export default {
 	name: "AllStatuses",
+
+	// props: ["tabType"],
+	props: {
+		tabType: {
+			default: "taskStatuses",
+		},
+	},
 
 	data() {
 		return {
@@ -57,7 +65,7 @@ export default {
 				},
 			],
 
-			activeStatus: "Canceled",
+			activeStatus: "",
 		};
 	},
 
@@ -72,13 +80,25 @@ export default {
 				active: document.querySelector(`div[id='${this.activeStatus}']`),
 			};
 		},
+
+		activeTab() {
+			return this[this.tabType];
+		},
 	},
 
 	methods: {
-		statusClicked(event, status) {
-			// let currentEl = event.path;
-			// console.log("current", currentEl[currentEl.length - 7].classList.toggle("active"));
+		statusClicked(status, ev) {
 			this.activeStatus = status;
+			// this.$emit("status-clicked");
+			// console.log(document.querySelector(`.statuses-list[class~=shown]`));
+			let elem = document.querySelector(`.statuses-list[class~=shown]`);
+			this.$emit("status-clicked", elem);
+
+			// console.log("Status in component", status);
+
+			// if (this.tabType == "taskStatuses") {
+			this.$store.dispatch("tasksModule/setActiveStatusAction", status);
+			// }
 		},
 	},
 };
@@ -86,11 +106,13 @@ export default {
 
 <style lang="scss" scoped>
 .statuses-list {
+	position: absolute;
 	width: 160px;
 	height: fit-content;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 2px 6px rgba(31, 34, 38, 0.08),
 		0px 0px 10px 0px rgba(31, 34, 38, 0.12);
 	border-radius: 4px;
+	background-color: white;
 
 	p {
 		font-family: Inter;

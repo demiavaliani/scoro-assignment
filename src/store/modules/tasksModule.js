@@ -1,4 +1,5 @@
 import api from "@/api";
+import Vue from "vue";
 
 export default {
 	namespaced: true,
@@ -11,6 +12,19 @@ export default {
 	mutations: {
 		setTaskStatusesMutation(state, payload) {
 			state.taskStatuses = payload;
+		},
+
+		setActiveStatusMutation(state, status) {
+			let index = state.taskStatuses.findIndex((item) => {
+				return item.status_name == status;
+			});
+
+			let task = state.taskStatuses[index];
+			task.isActive = "true";
+
+			Vue.set(state.taskStatuses, index, task);
+
+			console.log(state.taskStatuses[index]);
 		},
 	},
 
@@ -42,6 +56,10 @@ export default {
 					resolve();
 				});
 			});
+		},
+
+		setActiveStatusAction({ commit }, status) {
+			commit("setActiveStatusMutation", status);
 		},
 	},
 };

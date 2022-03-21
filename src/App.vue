@@ -1,7 +1,7 @@
 <template>
 	<div id="app">
-		<!-- <TaskAndProjectWrapper></TaskAndProjectWrapper> -->
-		<AllStatuses></AllStatuses>
+		<TaskAndProjectWrapper></TaskAndProjectWrapper>
+		<!-- <AllStatuses></AllStatuses> -->
 	</div>
 </template>
 

@@ -1,12 +1,15 @@
 <template>
 	<div class="list-item-wrapper">
-		<div class="tab">
+		<div class="header">
 			<div class="project-name">
 				<p v-if="activeTab == 'projects'">{{ projectName }}</p>
 				<p v-else>{{ eventName }}</p>
 			</div>
 			<div class="project-status">
-				<p>Waiting</p>
+				<div @click="toggleStatusModal($event)">Toggle Status</div>
+				<!-- <div class="status-modal-wrapper"> -->
+				<AllStatuses @status-clicked="toggleStatusModal"></AllStatuses>
+				<!-- </div> -->
 			</div>
 		</div>
 
@@ -44,6 +47,8 @@
 </template>
 
 <script>
+import AllStatuses from "./AllStatuses.vue";
+
 export default {
 	name: "ListItem",
 
@@ -78,6 +83,10 @@ export default {
 		},
 	},
 
+	components: {
+		AllStatuses,
+	},
+
 	data() {
 		return {
 			email: "demikoavaliani@gmail.com",
@@ -86,7 +95,17 @@ export default {
 
 	computed: {},
 
-	methods: {},
+	methods: {
+		toggleStatusModal(ev) {
+			// console.log(ev.target.nextSibling.style);
+			// ev.target.nextSibling.style.display = "block";
+			if (ev.target) {
+				ev.target.nextSibling.classList.toggle("shown");
+			} else {
+				ev.classList.toggle("shown");
+			}
+		},
+	},
 };
 </script>
 
@@ -108,7 +127,7 @@ export default {
 		width: 100%;
 	}
 
-	& .tab {
+	& .header {
 		display: flex;
 		justify-content: space-between;
 		margin-bottom: 10px;
@@ -122,6 +141,14 @@ export default {
 				overflow: hidden;
 				text-overflow: ellipsis;
 				word-wrap: break-word;
+			}
+		}
+
+		.statuses-list {
+			display: none;
+
+			&.shown {
+				display: block;
 			}
 		}
 	}
@@ -182,10 +209,6 @@ export default {
 				width: 30%;
 				margin-right: 10px;
 			}
-
-			// p.value {
-			// 	width: 70%;
-			// }
 		}
 	}
 }
