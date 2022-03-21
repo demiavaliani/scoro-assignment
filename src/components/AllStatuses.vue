@@ -25,10 +25,9 @@ import { mapState } from "vuex";
 export default {
 	name: "AllStatuses",
 
-	// props: ["tabType"],
 	props: {
 		tabType: {
-			default: "taskStatuses",
+			default: "projectStatuses",
 		},
 	},
 
@@ -93,12 +92,6 @@ export default {
 			// console.log(document.querySelector(`.statuses-list[class~=shown]`));
 			let elem = document.querySelector(`.statuses-list[class~=shown]`);
 			this.$emit("status-clicked", elem);
-
-			// console.log("Status in component", status);
-
-			// if (this.tabType == "taskStatuses") {
-			this.$store.dispatch("tasksModule/setActiveStatusAction", status);
-			// }
 		},
 	},
 };

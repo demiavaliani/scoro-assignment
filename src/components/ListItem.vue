@@ -8,7 +8,10 @@
 			<div class="project-status">
 				<div @click="toggleStatusModal($event)">Toggle Status</div>
 				<!-- <div class="status-modal-wrapper"> -->
-				<AllStatuses @status-clicked="toggleStatusModal"></AllStatuses>
+				<AllStatuses
+					@status-clicked="toggleStatusModal"
+					:tabType="activeTab == 'projects' ? 'projectStatuses' : activeTab == 'tasks' ? 'taskStatuses' : ''"
+				></AllStatuses>
 				<!-- </div> -->
 			</div>
 		</div>

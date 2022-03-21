@@ -13,19 +13,6 @@ export default {
 		setTaskStatusesMutation(state, payload) {
 			state.taskStatuses = payload;
 		},
-
-		setActiveStatusMutation(state, status) {
-			let index = state.taskStatuses.findIndex((item) => {
-				return item.status_name == status;
-			});
-
-			let task = state.taskStatuses[index];
-			task.isActive = "true";
-
-			Vue.set(state.taskStatuses, index, task);
-
-			console.log(state.taskStatuses[index]);
-		},
 	},
 
 	actions: {
@@ -56,10 +43,6 @@ export default {
 					resolve();
 				});
 			});
-		},
-
-		setActiveStatusAction({ commit }, status) {
-			commit("setActiveStatusMutation", status);
 		},
 	},
 };
