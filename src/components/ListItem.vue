@@ -1,12 +1,18 @@
 <template>
 	<div class="list-item-wrapper">
-		<div class="tab">
+		<div class="header">
 			<div class="project-name">
 				<p v-if="activeTab == 'projects'">{{ projectName }}</p>
 				<p v-else>{{ eventName }}</p>
 			</div>
-			<div class="project-status">
-				<p>Waiting</p>
+			<div class="project-status" :style="activeStatusColor">
+				<div class="status-toggle" @click="toggleStatusModal($event)" :style="activeStatusColor">
+					{{ activeTab == "projects" ? projectStatus : taskStatus }}
+				</div>
+				<AllStatuses
+					@status-clicked="toggleStatusModal($event)"
+					:tabType="activeTab == 'projects' ? 'projectStatuses' : activeTab == 'tasks' ? 'taskStatuses' : ''"
+				></AllStatuses>
 			</div>
 		</div>
 
@@ -44,6 +50,9 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import AllStatuses from "./AllStatuses.vue";
+
 export default {
 	name: "ListItem",
 
@@ -76,17 +85,60 @@ export default {
 		taskDeadline: {
 			default: "Not indicated",
 		},
+		projectStatus: {
+			default: "Not indicated",
+		},
+		taskStatus: {
+			default: "Not indicated",
+		},
+	},
+
+	components: {
+		AllStatuses,
 	},
 
 	data() {
-		return {
-			email: "demikoavaliani@gmail.com",
-		};
+		return {};
 	},
 
-	computed: {},
+	computed: {
+		...mapState({
+			projectStatuses: (state) => state.projectsModule.projectStatuses,
+			taskStatuses: (state) => state.tasksModule.taskStatuses,
+		}),
 
-	methods: {},
+		activeStatusColor() {
+			const projectStatus = this.projectStatus;
+			const taskStatus = this.taskStatus;
+
+			let activeProjectStatus = this.projectStatuses.find(function (item) {
+				return item.status_id == projectStatus;
+			});
+
+			const activeTaskStatus = this.taskStatuses.find(function (item) {
+				item.status_id == taskStatus;
+			});
+
+			if (this.activeTab == "projects" && activeProjectStatus) {
+				return { backgroundColor: activeProjectStatus.color };
+			} else if (this.activeTab == "tasks" && activeTaskStatus) {
+				return { backgroundColor: activeTaskStatus.color };
+			} else {
+				return { backgroundColor: "#47C1BF" };
+			}
+		},
+	},
+
+	methods: {
+		toggleStatusModal(ev) {
+			if (ev && ev.target) {
+				ev.target.nextSibling.classList.toggle("shown");
+			} else {
+				const element = document.getElementsByClassName("shown");
+				element[0].classList.toggle("shown");
+			}
+		},
+	},
 };
 </script>
 
@@ -108,20 +160,39 @@ export default {
 		width: 100%;
 	}
 
-	& .tab {
+	& .header {
 		display: flex;
 		justify-content: space-between;
 		margin-bottom: 10px;
 
 		& .project-name {
 			text-align: start;
-			width: 80%;
+			width: 70%;
 
 			p {
 				width: calc(100%);
 				overflow: hidden;
 				text-overflow: ellipsis;
 				word-wrap: break-word;
+			}
+		}
+
+		.project-status {
+			position: relative;
+			width: fit-content;
+			max-width: 40%;
+			padding: 0 7px;
+			border-radius: 4px;
+		}
+
+		.status-toggle {
+			margin-top: 1px;
+		}
+		.statuses-list {
+			display: none;
+
+			&.shown {
+				display: block;
 			}
 		}
 	}
@@ -182,10 +253,6 @@ export default {
 				width: 30%;
 				margin-right: 10px;
 			}
-
-			// p.value {
-			// 	width: 70%;
-			// }
 		}
 	}
 }

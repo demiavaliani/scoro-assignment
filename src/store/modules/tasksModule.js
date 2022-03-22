@@ -1,12 +1,19 @@
 import api from "@/api";
+import Vue from "vue";
 
 export default {
 	namespaced: true,
-	state: {},
+	state: {
+		taskStatuses: [],
+	},
 
 	getters: {},
 
-	mutations: {},
+	mutations: {
+		setTaskStatusesMutation(state, payload) {
+			state.taskStatuses = payload;
+		},
+	},
 
 	actions: {
 		getTaskByIdAction({ commit }, id) {
@@ -25,6 +32,15 @@ export default {
 			return new Promise((resolve) => {
 				api.modifyTaskById({ event_id, payload }).then((res) => {
 					resolve(res);
+				});
+			});
+		},
+
+		getTaskStatusesAction({ commit }) {
+			return new Promise((resolve) => {
+				api.getStatuses("tasks").then((res) => {
+					commit("setTaskStatusesMutation", res);
+					resolve();
 				});
 			});
 		},

@@ -24,6 +24,7 @@
 				:manager-email="!!item.manager_email ? item.manager_email : undefined"
 				:project-start="!!item.date ? item.date : undefined"
 				:project-deadline="!!item.deadline ? item.deadline : undefined"
+				:project-status="!!item.status ? item.status : undefined"
 			></ListItem>
 		</div>
 
@@ -37,17 +38,9 @@
 				:owner-email="!!item.owner_email ? item.owner_email : undefined"
 				:task-start="dateTimeFormatted(!!item.start_datetime ? item.start_datetime : undefined)"
 				:task-deadline="dateTimeFormatted(!!item.datetime_due ? item.datetime_due : undefined)"
+				:task-status="!!item.status ? item.status : undefined"
 			></ListItem>
 		</div>
-
-		<!-- <div class="list-area" v-if="activeTab == 'projects'">
-			<ListItem
-				v-for="(item, index) in projects"
-				:key="item.project_id"
-				:active-tab="activeTab"
-				v-bind="listItemProps(index)"
-			></ListItem>
-		</div> -->
 	</div>
 </template>
 
@@ -104,26 +97,6 @@ export default {
 			}
 			this.activeTab = target;
 		},
-
-		// listItemProps(index) {
-		// 	let propObject = {};
-		// 	if (this.projects.length > 0) {
-		// 		propObject.projectName = !!this.projects[index].project_name
-		// 			? this.projects[index].project_name
-		// 			: undefined;
-		// 		propObject.companyName = !!this.projects[index].company_name
-		// 			? this.projects[index].company_name
-		// 			: undefined;
-		// 		propObject.managerEmail = !!this.projects[index].manager_email
-		// 			? this.projects[index].manager_email
-		// 			: undefined;
-		// 		propObject.projectStart = !!this.projects[index].date ? this.projects[index].date : undefined;
-		// 		propObject.projectDeadline = !!this.projects[index].deadline
-		// 			? this.projects[index].deadline
-		// 			: undefined;
-		// 	}
-		// 	return propObject;
-		// },
 	},
 };
 </script>
@@ -162,10 +135,6 @@ export default {
 			width: 100%;
 			margin: 12px 0;
 		}
-
-		// p {
-		// 	transition: font-size 2s;
-		// }
 	}
 
 	& .list-area {
