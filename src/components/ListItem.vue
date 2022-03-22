@@ -5,8 +5,10 @@
 				<p v-if="activeTab == 'projects'">{{ projectName }}</p>
 				<p v-else>{{ eventName }}</p>
 			</div>
-			<div class="project-status">
-				<div @click="toggleStatusModal($event)">Toggle Status</div>
+			<div class="project-status" :style="activeStatusColor">
+				<div class="status-toggle" @click="toggleStatusModal($event)" :style="activeStatusColor">
+					{{ activeTab == "projects" ? projectStatus : taskStatus }}
+				</div>
 				<AllStatuses
 					@status-clicked="toggleStatusModal($event)"
 					:tabType="activeTab == 'projects' ? 'projectStatuses' : activeTab == 'tasks' ? 'taskStatuses' : ''"
@@ -48,6 +50,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import AllStatuses from "./AllStatuses.vue";
 
 export default {
@@ -82,6 +85,12 @@ export default {
 		taskDeadline: {
 			default: "Not indicated",
 		},
+		projectStatus: {
+			default: "Not indicated",
+		},
+		taskStatus: {
+			default: "Not indicated",
+		},
 	},
 
 	components: {
@@ -89,12 +98,36 @@ export default {
 	},
 
 	data() {
-		return {
-			email: "demikoavaliani@gmail.com",
-		};
+		return {};
 	},
 
-	computed: {},
+	computed: {
+		...mapState({
+			projectStatuses: (state) => state.projectsModule.projectStatuses,
+			taskStatuses: (state) => state.tasksModule.taskStatuses,
+		}),
+
+		activeStatusColor() {
+			const projectStatus = this.projectStatus;
+			const taskStatus = this.taskStatus;
+
+			let activeProjectStatus = this.projectStatuses.find(function (item) {
+				return item.status_id == projectStatus;
+			});
+
+			const activeTaskStatus = this.taskStatuses.find(function (item) {
+				item.status_id == taskStatus;
+			});
+
+			if (this.activeTab == "projects" && activeProjectStatus) {
+				return { backgroundColor: activeProjectStatus.color };
+			} else if (this.activeTab == "tasks" && activeTaskStatus) {
+				return { backgroundColor: activeTaskStatus.color };
+			} else {
+				return { backgroundColor: "#47C1BF" };
+			}
+		},
+	},
 
 	methods: {
 		toggleStatusModal(ev) {
@@ -134,7 +167,7 @@ export default {
 
 		& .project-name {
 			text-align: start;
-			width: 80%;
+			width: 70%;
 
 			p {
 				width: calc(100%);
@@ -144,6 +177,17 @@ export default {
 			}
 		}
 
+		.project-status {
+			position: relative;
+			width: fit-content;
+			max-width: 40%;
+			padding: 0 7px;
+			border-radius: 4px;
+		}
+
+		.status-toggle {
+			margin-top: 1px;
+		}
 		.statuses-list {
 			display: none;
 

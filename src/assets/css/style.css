@@ -60,16 +60,29 @@ body {
 p {
 	margin: 0;
 	white-space: nowrap;
+	font-family: Inter;
 }
 
 .project-name p {
-	font-family: Inter;
 	font-size: 15px;
 	font-weight: 600;
 }
 
-p.key {
+.statuses-list p {
 	font-family: Inter;
+	font-size: 12px;
+	font-weight: 400;
+	color: #1f2226;
+}
+
+.status-toggle {
+	font-family: Inter;
+	font-size: 12px;
+	font-weight: 500;
+	color: white;
+}
+
+p.key {
 	font-size: 12px;
 	font-weight: 400;
 	color: #9a9a9a;
@@ -77,14 +90,12 @@ p.key {
 
 p.value,
 a.value {
-	font-family: Inter;
 	font-size: 12px;
 	font-weight: 400;
 	color: #222935;
 }
 
 .task-and-project-wrapper p:not(.list-item-wrapper *) {
-	font-family: Inter;
 	font-size: 20px;
 	font-weight: 700;
 }

@@ -134,19 +134,15 @@ export default {
 <style lang="scss" scoped>
 .statuses-list {
 	position: absolute;
+	right: 0;
+	top: 20px;
 	width: 160px;
 	height: fit-content;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 2px 6px rgba(31, 34, 38, 0.08),
 		0px 0px 10px 0px rgba(31, 34, 38, 0.12);
 	border-radius: 4px;
 	background-color: white;
-
-	p {
-		font-family: Inter;
-		font-size: 12px;
-		font-weight: 400;
-		color: #1f2226;
-	}
+	z-index: 1;
 
 	.status-item {
 		box-sizing: border-box;
