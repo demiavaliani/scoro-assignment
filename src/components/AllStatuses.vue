@@ -1,13 +1,16 @@
 <template>
-	<div class="statuses-list">
-		<!-- <button>Toggle Status</button> -->
+	<div class="statuses-list dragArea">
 		<div
 			class="status-item"
 			v-for="(item, index) in activeTab"
 			:key="index"
 			:id="item.status_name"
-			:class="{ active: item.status_name == activeStatus }"
+			:class="{ active: item.status_name == activeStatus, draggable: true }"
 			@click="statusClicked(item.status_name, $event)"
+			draggable="true"
+			@dragstart="dragStart($event, item.status_name)"
+			@dragover="dragOver($event, item.status_name)"
+			@dragend="dragEnd($event, item.status_name)"
 		>
 			<div class="status-item-wrapper">
 				<div class="status-item-color-wrapper">
@@ -51,7 +54,7 @@ export default {
 					color: "#c90024",
 				},
 				{
-					status_name: "Needs preparationnnnnnnnnnnnnnnnnnnnn",
+					status_name: "Needs preparation",
 					color: "#5c6ac4",
 				},
 				{
@@ -74,12 +77,6 @@ export default {
 			taskStatuses: (state) => state.tasksModule.taskStatuses,
 		}),
 
-		activeStyle() {
-			return {
-				active: document.querySelector(`div[id='${this.activeStatus}']`),
-			};
-		},
-
 		activeTab() {
 			return this[this.tabType];
 		},
@@ -88,10 +85,46 @@ export default {
 	methods: {
 		statusClicked(status, ev) {
 			this.activeStatus = status;
-			// this.$emit("status-clicked");
-			// console.log(document.querySelector(`.statuses-list[class~=shown]`));
-			let elem = document.querySelector(`.statuses-list[class~=shown]`);
-			this.$emit("status-clicked", elem);
+			this.$emit("status-clicked");
+		},
+
+		dragStart(ev, item) {
+			ev.target.classList.add("dragging");
+		},
+
+		dragOver(ev, item) {
+			ev.preventDefault();
+			const dragArea = document.getElementsByClassName("dragArea")[0];
+			const draggable = document.getElementsByClassName("dragging")[0];
+			const dragElement = this.getDragElement(dragArea, ev.clientY);
+
+			if (dragElement == null) {
+				dragArea.appendChild(draggable);
+			} else {
+				dragArea.insertBefore(draggable, dragElement);
+			}
+		},
+
+		dragEnd(ev, item) {
+			ev.target.classList.remove("dragging");
+		},
+
+		getDragElement(dragArea, y) {
+			const dragItems = [...dragArea.querySelectorAll(".draggable:not(.dragging)")];
+
+			return dragItems.reduce(
+				(closest, item) => {
+					const itemRect = item.getBoundingClientRect();
+					const positionOffset = y - itemRect.top - itemRect.height / 2;
+
+					if (positionOffset < 0 && positionOffset > closest.positionOffset) {
+						return { positionOffset: positionOffset, element: item };
+					} else {
+						return closest;
+					}
+				},
+				{ positionOffset: Number.NEGATIVE_INFINITY }
+			).element;
 		},
 	},
 };
@@ -144,6 +177,10 @@ export default {
 
 		&:last-child {
 			padding-bottom: 5px;
+		}
+
+		&.dragging {
+			// border: 1px solid black;
 		}
 
 		&-wrapper {
