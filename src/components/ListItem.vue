@@ -7,12 +7,10 @@
 			</div>
 			<div class="project-status">
 				<div @click="toggleStatusModal($event)">Toggle Status</div>
-				<!-- <div class="status-modal-wrapper"> -->
 				<AllStatuses
-					@status-clicked="toggleStatusModal"
+					@status-clicked="toggleStatusModal($event)"
 					:tabType="activeTab == 'projects' ? 'projectStatuses' : activeTab == 'tasks' ? 'taskStatuses' : ''"
 				></AllStatuses>
-				<!-- </div> -->
 			</div>
 		</div>
 
@@ -100,12 +98,11 @@ export default {
 
 	methods: {
 		toggleStatusModal(ev) {
-			// console.log(ev.target.nextSibling.style);
-			// ev.target.nextSibling.style.display = "block";
-			if (ev.target) {
+			if (ev && ev.target) {
 				ev.target.nextSibling.classList.toggle("shown");
 			} else {
-				ev.classList.toggle("shown");
+				const element = document.getElementsByClassName("shown");
+				element[0].classList.toggle("shown");
 			}
 		},
 	},

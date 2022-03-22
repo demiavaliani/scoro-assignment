@@ -85,7 +85,8 @@ export default {
 	methods: {
 		statusClicked(status, ev) {
 			this.activeStatus = status;
-			this.$emit("status-clicked");
+			let element = document.querySelector(`.statuses-list[class~=shown]`);
+			this.$emit("status-clicked", element);
 		},
 
 		dragStart(ev, item) {
