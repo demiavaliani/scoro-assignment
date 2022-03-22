@@ -7,11 +7,14 @@
 			</div>
 			<div class="project-status" :style="activeStatusColor">
 				<div class="status-toggle" @click="toggleStatusModal($event)" :style="activeStatusColor">
-					{{ activeTab == "projects" ? projectStatus : taskStatus }}
+					<!-- {{ activeTab == "projects" ? projectStatus : taskStatus }} -->
+					{{ activeTab == "projects" ? projectStatusLocal : taskStatusLocal }}
 				</div>
 				<AllStatuses
 					@status-clicked="toggleStatusModal($event)"
+					@change-status="changeStatus($event)"
 					:tabType="activeTab == 'projects' ? 'projectStatuses' : activeTab == 'tasks' ? 'taskStatuses' : ''"
+					:id="activeTab == 'projects' ? projectId : activeTab == 'tasks' ? eventId : ''"
 				></AllStatuses>
 			</div>
 		</div>
@@ -64,6 +67,12 @@ export default {
 		eventName: {
 			default: "Not indicated",
 		},
+		projectId: {
+			default: "Not indicated",
+		},
+		eventId: {
+			default: "Not indicated",
+		},
 		companyName: {
 			default: "Not indicated",
 		},
@@ -98,7 +107,10 @@ export default {
 	},
 
 	data() {
-		return {};
+		return {
+			projectStatusLocal: this.projectStatus,
+			taskStatusLocal: this.taskStatus,
+		};
 	},
 
 	computed: {
@@ -137,6 +149,10 @@ export default {
 				const element = document.getElementsByClassName("shown");
 				element[0].classList.toggle("shown");
 			}
+		},
+
+		changeStatus(ev) {
+			this[ev.tabType] = ev.status;
 		},
 	},
 };

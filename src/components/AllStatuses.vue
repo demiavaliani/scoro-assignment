@@ -2,11 +2,11 @@
 	<div class="statuses-list dragArea">
 		<div
 			class="status-item"
-			v-for="(item, index) in activeTab"
+			v-for="(item, index) in activeTabStatuses"
 			:key="index"
 			:id="item.status_name"
 			:class="{ active: item.status_name == activeStatus, draggable: true }"
-			@click="statusClicked(item.status_name, $event)"
+			@click="statusClicked(item.status_name)"
 			draggable="true"
 			@dragstart="dragStart($event, item.status_name)"
 			@dragover="dragOver($event, item.status_name)"
@@ -32,41 +32,11 @@ export default {
 		tabType: {
 			default: "projectStatuses",
 		},
+		id: {},
 	},
 
 	data() {
 		return {
-			statuses: [
-				{
-					status_name: "On hold",
-					color: "#dee5f1",
-				},
-				{
-					status_name: "In progress",
-					color: "#bbe5b3",
-				},
-				{
-					status_name: "Pending",
-					color: "#ffea8a",
-				},
-				{
-					status_name: "Canceled",
-					color: "#c90024",
-				},
-				{
-					status_name: "Needs preparation",
-					color: "#5c6ac4",
-				},
-				{
-					status_name: "Delayed",
-					color: "#f49342",
-				},
-				{
-					status_name: "Completed",
-					color: "#50b83c",
-				},
-			],
-
 			activeStatus: "",
 		};
 	},
@@ -77,16 +47,42 @@ export default {
 			taskStatuses: (state) => state.tasksModule.taskStatuses,
 		}),
 
-		activeTab() {
+		activeTabStatuses() {
 			return this[this.tabType];
 		},
 	},
 
 	methods: {
-		statusClicked(status, ev) {
+		statusClicked(status) {
 			this.activeStatus = status;
 			let element = document.querySelector(`.statuses-list[class~=shown]`);
 			this.$emit("status-clicked", element);
+
+			if (this.tabType == "projectStatuses") {
+				let data = {
+					project_id: this.id,
+					payload: {
+						status: status,
+					},
+				};
+
+				this.$store.dispatch("projectsModule/modifyProjectByIdAction", data);
+				this.$store.dispatch("getAllProjectsAction");
+
+				this.$emit("change-status", { tabType: "projectStatusLocal", status });
+			}
+			if (this.tabType == "taskStatuses") {
+				let data = {
+					event_id: this.id,
+					payload: {
+						status: status,
+					},
+				};
+
+				this.$store.dispatch("tasksModule/modifyTaskByIdAction", data);
+				this.$store.dispatch("getAllTasksAction");
+				this.$emit("change-status", { tabType: "taskStatusLocal", status });
+			}
 		},
 
 		dragStart(ev, item) {
