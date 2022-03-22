@@ -145,6 +145,20 @@ export default {
 		toggleStatusModal(ev) {
 			if (ev && ev.target) {
 				ev.target.nextSibling.classList.toggle("shown");
+
+				document.addEventListener("click", (event) => {
+					if (
+						!event.target.matches(".project-status") &&
+						!event.target.matches(".status-toggle") &&
+						!event.target.matches(".statuses-list") &&
+						!event.target.closest(".statuses-list")
+					) {
+						const element = document.getElementsByClassName("shown");
+						if (element && element[0] && element[0].classList) {
+							element[0].classList.toggle("shown");
+						}
+					}
+				});
 			} else {
 				const element = document.getElementsByClassName("shown");
 				element[0].classList.toggle("shown");
