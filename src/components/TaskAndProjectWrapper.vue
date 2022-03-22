@@ -18,7 +18,7 @@
 			<ListItem
 				v-for="item in projects"
 				:key="item.project_id"
-				:active-tab="activeTab"
+				:active-tab="'projects'"
 				:project-name="!!item.project_name ? item.project_name : undefined"
 				:project-id="!!item.project_id ? item.project_id : undefined"
 				:company-name="!!item.company_name ? item.company_name : undefined"

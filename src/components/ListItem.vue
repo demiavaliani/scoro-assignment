@@ -6,10 +6,10 @@
 				<p v-else>{{ eventName }}</p>
 			</div>
 			<div class="project-status" :style="activeStatusColor">
-				<div class="status-toggle" @click="toggleStatusModal($event)" :style="activeStatusColor">
-					<!-- {{ activeTab == "projects" ? projectStatus : taskStatus }} -->
+				<div class="status-toggle" @click="toggleStatusModal($event)">
 					{{ activeTab == "projects" ? projectStatusLocal : taskStatusLocal }}
 				</div>
+
 				<AllStatuses
 					@status-clicked="toggleStatusModal($event)"
 					@change-status="changeStatus($event)"
@@ -120,21 +120,21 @@ export default {
 		}),
 
 		activeStatusColor() {
-			const projectStatus = this.projectStatus;
-			const taskStatus = this.taskStatus;
+			let projectStatus = this.projectStatusLocal;
+			let taskStatus = this.taskStatusLocal;
 
-			let activeProjectStatus = this.projectStatuses.find(function (item) {
-				return item.status_id == projectStatus;
+			let projectStatusObject = this.projectStatuses.find(function (item) {
+				return item.status_name == projectStatus;
 			});
 
-			const activeTaskStatus = this.taskStatuses.find(function (item) {
-				item.status_id == taskStatus;
+			let taskStatusObject = this.taskStatuses.find(function (item) {
+				return item.status_name.toLowerCase() == taskStatus.toLowerCase();
 			});
 
-			if (this.activeTab == "projects" && activeProjectStatus) {
-				return { backgroundColor: activeProjectStatus.color };
-			} else if (this.activeTab == "tasks" && activeTaskStatus) {
-				return { backgroundColor: activeTaskStatus.color };
+			if (this.activeTab == "projects" && projectStatusObject) {
+				return { backgroundColor: projectStatusObject.color };
+			} else if (this.activeTab == "tasks" && taskStatusObject) {
+				return { backgroundColor: taskStatusObject.color };
 			} else {
 				return { backgroundColor: "#47C1BF" };
 			}
@@ -181,9 +181,22 @@ export default {
 		justify-content: space-between;
 		margin-bottom: 10px;
 
+		@media screen and (max-width: 426px) {
+			flex-flow: column;
+		}
+
 		& .project-name {
 			text-align: start;
 			width: 70%;
+
+			@media screen and (max-width: 480px) {
+				width: 62%;
+			}
+
+			@media screen and (max-width: 426px) {
+				width: 100%;
+				margin-bottom: 10px;
+			}
 
 			p {
 				width: calc(100%);

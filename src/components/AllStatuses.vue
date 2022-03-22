@@ -66,8 +66,9 @@ export default {
 					},
 				};
 
-				this.$store.dispatch("projectsModule/modifyProjectByIdAction", data);
-				this.$store.dispatch("getAllProjectsAction");
+				this.$store.dispatch("projectsModule/modifyProjectByIdAction", data).then((res) => {
+					this.$store.dispatch("getAllProjectsAction");
+				});
 
 				this.$emit("change-status", { tabType: "projectStatusLocal", status });
 			}
@@ -79,8 +80,9 @@ export default {
 					},
 				};
 
-				this.$store.dispatch("tasksModule/modifyTaskByIdAction", data);
-				this.$store.dispatch("getAllTasksAction");
+				this.$store.dispatch("tasksModule/modifyTaskByIdAction", data).then((res) => {
+					this.$store.dispatch("getAllTasksAction");
+				});
 				this.$emit("change-status", { tabType: "taskStatusLocal", status });
 			}
 		},
@@ -139,6 +141,10 @@ export default {
 	border-radius: 4px;
 	background-color: white;
 	z-index: 1;
+
+	@media screen and (max-width: 426px) {
+		left: 0;
+	}
 
 	.status-item {
 		box-sizing: border-box;
