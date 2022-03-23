@@ -84,7 +84,7 @@ export default {
 
 		tabClick(target) {
 			if (target) {
-				this.$refs[target].style.backgroundColor = "red";
+				this.$refs[target].style.backgroundColor = "#f1c8ab";
 				if (!!this.activeTab && target != this.activeTab) {
 					this.$refs[this.activeTab].style.backgroundColor = "transparent";
 				}
@@ -123,7 +123,7 @@ export default {
 			border-right: 1px solid var(--border-color);
 			border-top-left-radius: 15px;
 			cursor: pointer;
-			background-color: red;
+			background-color: #f1c8ab;
 		}
 
 		& .tasks-wrapper {

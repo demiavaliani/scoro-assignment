@@ -184,7 +184,7 @@ export default {
 	box-sizing: border-box;
 	padding: 10px 12px;
 	border-radius: 7px;
-	box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.25);
+	box-shadow: 0px 0px 10px 1px rgba(35, 45, 65, 0.2);
 
 	@media screen and (max-width: 735.5px) {
 		width: 100%;

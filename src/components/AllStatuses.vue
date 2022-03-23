@@ -1,5 +1,5 @@
 <template>
-	<div class="statuses-list dragArea">
+	<div class="statuses-list drag-area" @dragover="dragOver($event)">
 		<div
 			class="status-item"
 			v-for="(item, index) in activeTabStatuses"
@@ -8,9 +8,8 @@
 			:class="{ active: item.status_name == activeStatus, draggable: true }"
 			@click="statusClicked(item.status_name)"
 			draggable="true"
-			@dragstart="dragStart($event, item.status_name)"
-			@dragover="dragOver($event, item.status_name)"
-			@dragend="dragEnd($event, item.status_name)"
+			@dragstart="dragStart($event)"
+			@dragend="dragEnd($event)"
 		>
 			<div class="status-item-wrapper">
 				<div class="status-item-color-wrapper">
@@ -89,11 +88,13 @@ export default {
 
 		dragStart(ev, item) {
 			ev.target.classList.add("dragging");
+			var img = new Image();
+			ev.dataTransfer.setDragImage(img, 0, 0);
 		},
 
 		dragOver(ev, item) {
 			ev.preventDefault();
-			const dragArea = document.getElementsByClassName("dragArea")[0];
+			const dragArea = ev.target.closest(".drag-area");
 			const draggable = document.getElementsByClassName("dragging")[0];
 			const dragElement = this.getDragElement(dragArea, ev.clientY);
 
@@ -105,7 +106,36 @@ export default {
 		},
 
 		dragEnd(ev, item) {
+			let customStatusOrder = [];
 			ev.target.classList.remove("dragging");
+			const parent = ev.target.closest(".drag-area");
+			const children = parent.childNodes;
+
+			children.forEach((item) => {
+				customStatusOrder.push(item.id);
+			});
+
+			if (this.tabType == "projectStatuses") {
+				let newStatusOrder = customStatusOrder.map((item) => {
+					return this.projectStatuses.find((data) => {
+						if (data.status_name == item) {
+							return data;
+						}
+					});
+				});
+
+				this.$store.dispatch("projectsModule/modifyProjectStatusesOrderAction", newStatusOrder);
+			} else if (this.tabType == "taskStatuses") {
+				let newStatusOrder = customStatusOrder.map((item) => {
+					return this.taskStatuses.find((data) => {
+						if (data.status_name == item) {
+							return data;
+						}
+					});
+				});
+
+				this.$store.dispatch("tasksModule/modifyTaskStatusesOrderAction", newStatusOrder);
+			}
 		},
 
 		getDragElement(dragArea, y) {
@@ -179,7 +209,8 @@ export default {
 		}
 
 		&.dragging {
-			// border: 1px solid black;
+			// opacity: 0.01;
+			box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.3);
 		}
 
 		&-wrapper {
