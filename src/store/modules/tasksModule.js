@@ -13,6 +13,10 @@ export default {
 		setTaskStatusesMutation(state, payload) {
 			state.taskStatuses = payload;
 		},
+
+		modifyTaskStatusesOrderMutation(state, payload) {
+			state.taskStatuses = payload;
+		},
 	},
 
 	actions: {
@@ -42,6 +46,13 @@ export default {
 					commit("setTaskStatusesMutation", res);
 					resolve();
 				});
+			});
+		},
+
+		modifyTaskStatusesOrderAction({ commit }, payload) {
+			return new Promise((resolve) => {
+				commit("modifyTaskStatusesOrderMutation", payload);
+				resolve();
 			});
 		},
 	},

@@ -18,8 +18,9 @@
 			<ListItem
 				v-for="item in projects"
 				:key="item.project_id"
-				:active-tab="activeTab"
+				:active-tab="'projects'"
 				:project-name="!!item.project_name ? item.project_name : undefined"
+				:project-id="!!item.project_id ? item.project_id : undefined"
 				:company-name="!!item.company_name ? item.company_name : undefined"
 				:manager-email="!!item.manager_email ? item.manager_email : undefined"
 				:project-start="!!item.date ? item.date : undefined"
@@ -34,6 +35,7 @@
 				:key="item.event_id"
 				:active-tab="'tasks'"
 				:event-name="!!item.event_name ? item.event_name : undefined"
+				:event-id="!!item.event_id ? item.event_id : undefined"
 				:company-name="!!item.company_name ? item.company_name : undefined"
 				:owner-email="!!item.owner_email ? item.owner_email : undefined"
 				:task-start="dateTimeFormatted(!!item.start_datetime ? item.start_datetime : undefined)"
@@ -82,7 +84,7 @@ export default {
 
 		tabClick(target) {
 			if (target) {
-				this.$refs[target].style.backgroundColor = "red";
+				this.$refs[target].style.backgroundColor = "#f1c8ab";
 				if (!!this.activeTab && target != this.activeTab) {
 					this.$refs[this.activeTab].style.backgroundColor = "transparent";
 				}
@@ -121,7 +123,7 @@ export default {
 			border-right: 1px solid var(--border-color);
 			border-top-left-radius: 15px;
 			cursor: pointer;
-			background-color: red;
+			background-color: #f1c8ab;
 		}
 
 		& .tasks-wrapper {

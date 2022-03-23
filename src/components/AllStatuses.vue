@@ -1,16 +1,15 @@
 <template>
-	<div class="statuses-list dragArea">
+	<div class="statuses-list drag-area" @dragover="dragOver($event)">
 		<div
 			class="status-item"
-			v-for="(item, index) in activeTab"
+			v-for="(item, index) in activeTabStatuses"
 			:key="index"
 			:id="item.status_name"
 			:class="{ active: item.status_name == activeStatus, draggable: true }"
-			@click="statusClicked(item.status_name, $event)"
+			@click="statusClicked(item.status_name)"
 			draggable="true"
-			@dragstart="dragStart($event, item.status_name)"
-			@dragover="dragOver($event, item.status_name)"
-			@dragend="dragEnd($event, item.status_name)"
+			@dragstart="dragStart($event)"
+			@dragend="dragEnd($event)"
 		>
 			<div class="status-item-wrapper">
 				<div class="status-item-color-wrapper">
@@ -32,41 +31,11 @@ export default {
 		tabType: {
 			default: "projectStatuses",
 		},
+		id: {},
 	},
 
 	data() {
 		return {
-			statuses: [
-				{
-					status_name: "On hold",
-					color: "#dee5f1",
-				},
-				{
-					status_name: "In progress",
-					color: "#bbe5b3",
-				},
-				{
-					status_name: "Pending",
-					color: "#ffea8a",
-				},
-				{
-					status_name: "Canceled",
-					color: "#c90024",
-				},
-				{
-					status_name: "Needs preparation",
-					color: "#5c6ac4",
-				},
-				{
-					status_name: "Delayed",
-					color: "#f49342",
-				},
-				{
-					status_name: "Completed",
-					color: "#50b83c",
-				},
-			],
-
 			activeStatus: "",
 		};
 	},
@@ -77,25 +46,55 @@ export default {
 			taskStatuses: (state) => state.tasksModule.taskStatuses,
 		}),
 
-		activeTab() {
+		activeTabStatuses() {
 			return this[this.tabType];
 		},
 	},
 
 	methods: {
-		statusClicked(status, ev) {
+		statusClicked(status) {
 			this.activeStatus = status;
 			let element = document.querySelector(`.statuses-list[class~=shown]`);
 			this.$emit("status-clicked", element);
+
+			if (this.tabType == "projectStatuses") {
+				let data = {
+					project_id: this.id,
+					payload: {
+						status: status,
+					},
+				};
+
+				this.$store.dispatch("projectsModule/modifyProjectByIdAction", data).then((res) => {
+					this.$store.dispatch("getAllProjectsAction");
+				});
+
+				this.$emit("change-status", { tabType: "projectStatusLocal", status });
+			}
+			if (this.tabType == "taskStatuses") {
+				let data = {
+					event_id: this.id,
+					payload: {
+						status: status,
+					},
+				};
+
+				this.$store.dispatch("tasksModule/modifyTaskByIdAction", data).then((res) => {
+					this.$store.dispatch("getAllTasksAction");
+				});
+				this.$emit("change-status", { tabType: "taskStatusLocal", status });
+			}
 		},
 
 		dragStart(ev, item) {
 			ev.target.classList.add("dragging");
+			var img = new Image();
+			ev.dataTransfer.setDragImage(img, 0, 0);
 		},
 
 		dragOver(ev, item) {
 			ev.preventDefault();
-			const dragArea = document.getElementsByClassName("dragArea")[0];
+			const dragArea = ev.target.closest(".drag-area");
 			const draggable = document.getElementsByClassName("dragging")[0];
 			const dragElement = this.getDragElement(dragArea, ev.clientY);
 
@@ -107,7 +106,36 @@ export default {
 		},
 
 		dragEnd(ev, item) {
+			let customStatusOrder = [];
 			ev.target.classList.remove("dragging");
+			const parent = ev.target.closest(".drag-area");
+			const children = parent.childNodes;
+
+			children.forEach((item) => {
+				customStatusOrder.push(item.id);
+			});
+
+			if (this.tabType == "projectStatuses") {
+				let newStatusOrder = customStatusOrder.map((item) => {
+					return this.projectStatuses.find((data) => {
+						if (data.status_name == item) {
+							return data;
+						}
+					});
+				});
+
+				this.$store.dispatch("projectsModule/modifyProjectStatusesOrderAction", newStatusOrder);
+			} else if (this.tabType == "taskStatuses") {
+				let newStatusOrder = customStatusOrder.map((item) => {
+					return this.taskStatuses.find((data) => {
+						if (data.status_name == item) {
+							return data;
+						}
+					});
+				});
+
+				this.$store.dispatch("tasksModule/modifyTaskStatusesOrderAction", newStatusOrder);
+			}
 		},
 
 		getDragElement(dragArea, y) {
@@ -144,6 +172,10 @@ export default {
 	background-color: white;
 	z-index: 1;
 
+	@media screen and (max-width: 426px) {
+		left: 0;
+	}
+
 	.status-item {
 		box-sizing: border-box;
 		width: 100%;
@@ -177,7 +209,8 @@ export default {
 		}
 
 		&.dragging {
-			// border: 1px solid black;
+			// opacity: 0.01;
+			box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.3);
 		}
 
 		&-wrapper {

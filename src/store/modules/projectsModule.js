@@ -13,6 +13,10 @@ export default {
 		setProjectStatusesMutation(state, payload) {
 			state.projectStatuses = payload;
 		},
+
+		modifyProjectStatusesOrderMutation(state, payload) {
+			state.projectStatuses = payload;
+		},
 	},
 
 	actions: {
@@ -40,8 +44,15 @@ export default {
 			return new Promise((resolve) => {
 				api.getStatuses("projects").then((res) => {
 					commit("setProjectStatusesMutation", res);
-					resolve();
+					resolve(res);
 				});
+			});
+		},
+
+		modifyProjectStatusesOrderAction({ commit }, payload) {
+			return new Promise((resolve) => {
+				commit("modifyProjectStatusesOrderMutation", payload);
+				resolve();
 			});
 		},
 	},
