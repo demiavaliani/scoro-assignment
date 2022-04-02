@@ -13,8 +13,8 @@ axios.interceptors.request.use(
 		config.data = {
 			...config.data,
 			lang: "eng",
-			company_account_id: "apiplayground",
-			apiKey: "ScoroAPI_7bd4080abccc13c",
+			company_account_id: "",
+			apiKey: "",
 		};
 		return config;
 	},
